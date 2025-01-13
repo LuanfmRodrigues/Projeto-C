@@ -2,20 +2,111 @@
 //
 
 #include <iostream>
+#include <locale>
 using namespace std;
+
+void produtos(int* id, int qtd, string *nome, int* quantidade, double* preco)
+{
+if(qtd==0)
+{
+    cout << "\n Nao existe stock";
+}else 
+{
+    for (int i = 0; i < qtd; i++)
+    {
+        cout << "Id: " << id <<"\t Nome: "<< nome << "\t Quantidade: " << quantidade << "\t Preco: " << preco;
+    }
+}
+}
+void adicionarex(){}
+void adicionarnovo()
+{
+    cout << "\nIntroduza o id do produto\n";
+}
+void remover(){}
+void adicionar(int* id, int qtd, string* nome, int* quantidade, double* preco)
+{
+    int choice3;
+    do
+    {
+        cout << "\n Selecione a opção: \n" << "1- Adicionar produto\n" << "2- Adicionar produto novo\n" << "3- Voltar\n";
+        cin >> choice3;
+        switch (choice3)
+        {
+        case 1:
+            //Adicionar a um produto ja existente
+            adicionarex();
+            break;
+        case 2:
+            //adicionar produto novo a lista
+            adicionarnovo();
+            break;
+        case 3:
+            break;
+        default:
+            cout << "\nOpcao errada, tente novamente.\n";
+            break;
+        }
+    
+    } while (choice3!= 3);
+
+
+
+
+}
+void Stock()
+{
+    int qtd = 0;//Tamanho dos ponteiros de quantidade
+    int* id = new int[qtd];
+    string* nome = new string;
+    int* quantidade= new int[qtd];
+    double* preco= new double[qtd];
+    int choice1;
+    
+    do
+    {
+        cout << "\n 1-Addicionar produto \n" << "\n 2-Remover produto \n" << "\n 3- Produtos \n" << "\n 4-Sair \n";
+        cin >> choice1;
+        switch (choice1)
+        {
+        case 1:
+            adicionar(id, qtd, nome, quantidade, preco);//Para adicionar artigos ao stock ou acrescentar ao stock existente
+            break;
+        case 2:
+            remover();//Para remover artigos do stock existente
+            break;
+        case 3:
+            produtos(id, qtd, nome, quantidade, preco);//Para visualizar os produtos existentes
+            break;
+        case 4:
+            break;
+        default:
+            cout << "\nOpcao errada, tente novamente.\n";
+            break;
+        }
+    } while (choice1 != 4);
+}
+void Carrinho() {}
+void Venda() {}
 
 int main()
 {
-    cout << "Hello World!\n";
+    setlocale(LC_ALL, "");
+    int choice;
+    do {
+        cout << "\n \tMenu Principal \n" << "1-Stock \n" << "2-Carrinho\n" << "3-Sair\n";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            Stock();    //Chamar função para entrar no stock, onde se localiza tudo em relação a adicionar remover e visualizar stock
+            break;
+        case 2:
+            Carrinho(); //Chamar função para o carrinho que vai permitir fazer vendas
+            break;
+        default:
+            break;
+        }
+        
+    } while (choice != 3);
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
