@@ -9,6 +9,14 @@ using namespace std;
 void produtos(int &qtd, string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
     system("cls");
+    for (int i = 0; i < contador; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            cout << mat[i][j] << "\t|";
+        }
+        cout << "\n";
+    }
 
     
 
@@ -165,7 +173,7 @@ int main()
     for (int i = 0; i < 100; i++)
     {
         mat[i] = new string[qtd];
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < 3; j++)
         {
             mat[i][j] = "";
         }
