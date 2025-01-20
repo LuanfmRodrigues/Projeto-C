@@ -3,65 +3,53 @@
 
 #include <iostream>
 #include <locale>
+#include <string>
 using namespace std;
 // Maximo de produtos no estoque podemos vem outra forma de limitar.
 const int MaxProdutos = 60;
 
-void produtos(int* id, string *nome, int* quantidade, double* preco, int& qtd)
+void produtos()
 {
-
-    if(qtd == 0)
-    {
-        cout << "\n Não existe stock \n";
-    }else{
-        cout << "\n Produtos no STOCK \n";
-        for (int i = 0; i < qtd; i++){
-            
-            cout << "ID do produto: " << id[i] << "NOME do produto: " << nome[i] << "QUANTIDADE dos produtos: " << quantidade[i] << "PREÇO do produto: \n\n" << preco[i] << endl;      
-            
-        }
-    }
+    //id, nome, quantidade,preco,qtd
+    
 
 }
-void adicionarex(){}
-void adicionarnovo( int* id, string* nome, int* quantidade, double* preco, int& qtd)
+void adicionarex()
 {
-    //cout << "\nIntroduza o id do produto\n";
-    //int qtd = 40;  
-
+}
+void adicionarnovo(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int &contador)
+{  
+    contador = 0;
     char choice4;
-    do{
-        if (qtd >= MaxProdutos){
-            cout << "\n ---------- STOCK CHEIO --------- \n";
-            break;
-        }   
-        //ciacao dos produtos com sua viaveis. arrumar uma forma de o id ser automatico.
-        cout << "insira o ID do produto: ";
-        cin >> id[qtd];
-        cin.ignore();
-        cout << "Nome do produto: ";
-        
-        getline(cin, nome[qtd]);
-        cout << "Quantidade de produtos: ";
-        cin >>quantidade[qtd];
-        cout << "Qual é o preço do produto: ";
-        cin >> preco[qtd];
-        qtd++;
-
-            
+    do{  
+        contador++;
+        mat[contador][0]=to_string(contador);
+        cout << "Introduzir o nome: ";
+        cin >> mat[contador][1];
+        cout << "Introduzir a quantidade: ";
+        cin >> mat[contador][2];
+        cout << "Introduzir o preco: ";
+        cin >> mat[contador][3];
         cout << "Deseja adicionar mais produtos?.. (s/n)";
         cin >> choice4;
             
         
     }while (choice4 == 's' || choice4 == 'S');
-
+    for (int i = 0; i < contador+1; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            cout << mat[i][j]<< "\t";
+        }
+        cout << "\n";
+    }
 }
 
 
 void remover(){}
 
 //Lembrar que tem que declarar os ponteiros nos parametros para poder pecorre entre funcoes.  
-void adicionar(int* id, string* nome,int* quantidade,double* preco,int& qtd)
+void adicionar(int &qtd,string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
     int choice3;
     do
@@ -76,7 +64,7 @@ void adicionar(int* id, string* nome,int* quantidade,double* preco,int& qtd)
             break;
         case 2:
             
-            adicionarnovo(id, nome, quantidade, preco, qtd);
+            adicionarnovo(qtd, id, mat, nome, preco, quantidade, contador);
             break;
         case 3:
             break;
@@ -94,12 +82,24 @@ void adicionar(int* id, string* nome,int* quantidade,double* preco,int& qtd)
 void Stock()
 {
     //Tamanho dos ponteiros de quantidade
-    int qtd = 0;
-    int* id = new int[MaxProdutos];
-    string* nome = new string[MaxProdutos];
-    int* quantidade= new int[MaxProdutos];
-    double* preco= new double[MaxProdutos];
+    int qtd = 100;
+    int contador = 0;
+    string id;
+    string** mat= new string*[qtd];
+    string nome;
+    double preco;
+    int quantidade;
     int choice1;
+    
+    for (int i = 0; i < 100; i++)
+    {
+        mat[i] = new string[qtd];
+        for (int j = 0; j < 4; j++)
+        {
+            mat[i][j] = "";
+        }
+    }
+    
 
         
     do
@@ -109,13 +109,13 @@ void Stock()
         switch (choice1)
         {
         case 1:
-            adicionar(id, nome, quantidade, preco, qtd);//Para adicionar artigos ao stock ou acrescentar ao stock existente
+            adicionar(qtd,id, mat, nome, preco, quantidade, contador);//Para adicionar artigos ao stock ou acrescentar ao stock existente
             break;
         case 2:
             remover();//Para remover artigos do stock existente
             break;
         case 3:
-            produtos(id, nome, quantidade, preco, qtd);//Para visualizar os produtos existentes
+            produtos();//Para visualizar os produtos existentes
             break;
         case 4:
             break;
@@ -128,8 +128,10 @@ void Stock()
 void Carrinho() {}
 void Venda() {}
 
+
 int main()
 {
+
     setlocale(LC_ALL, "");
     int choice;
     do {
