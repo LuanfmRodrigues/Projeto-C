@@ -21,7 +21,7 @@ void produtos(int &qtd, string &id, string **mat, string &nome, double &preco, i
     
 
 }
-void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador)
+void adicionarEx(int &qtd, string &id, string** mat, string &nome, double& preco, int& quantidade, int& contador)
 {
     system("cls");
 
@@ -53,8 +53,8 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
     int contadorinterno = 0;//para quando se refizer a ação nao mostrar os itens todos que foram adicionados
     char choice4;
     do{  
-        contadorinterno++;
-        mat[contador][0]=to_string(contadorinterno);
+        
+        mat[contador][0]=to_string(contador +1);
         cout << "Introduzir o nome: ";
         cin >> mat[contador][1];
         cout << "Introduzir a quantidade: ";
@@ -71,7 +71,7 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
             
         
     }while (choice4 == 's' || choice4 == 'S');
-    for (int i = 0; i < contadorinterno; i++)
+    for (int i = 0; i < contador; i++)
     {
         for (int j = 0; j < 4; j++)
         {
@@ -82,11 +82,61 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
 }
 
 
-void remover()
+void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
     system("cls");
 
-}
+    int valorid;
+    char choice5;
+    
+    cout << "\tQual o id do produto que quer remover: \n";
+    cin >> valorid;
+    
+    //validação se existe o id do produto.
+    if( valorid < 1 || valorid > contador)
+    {
+        cout << "\nId informado não existe!!!\n";
+    }
+
+    valorid = valorid -1;
+
+    cout << "\tNome do produto: " << mat[valorid][1]<< "\n";
+    cout << "\tQuantidade do produto: " << mat[valorid][2]<< "\n";
+    cout << "\tPreço do produto: " << mat[valorid][3]<< endl<< "\n";
+
+    cout << " Deseja remover o o produto, (s/n)";
+    cin >> choice5;
+
+   if(choice5 == 's' || choice5 == 'S')
+   {
+    // o loop vai deslocar o produto solicitado para ultima posição.
+      
+    for (int i = valorid; i < contador -1 ; i++)
+    {
+        mat[i][0] = mat[i+1][0];
+        mat[i][1] = mat[i+1][1];
+        mat[i][2] = mat[i+1][2];
+        mat[i][3] = mat[i+1][3];
+    }
+     // o contador é -1 para limpar o ultimo produto.
+    mat[contador -1][0]= "";
+    mat[contador -1][1]= "";
+    mat[contador -1][2]= "";
+    mat[contador -1][3]= "";
+    contador --;
+
+    //o loop é para atualizacao dos ids do produtos fazendo andar uma casa, para não ficar um buraco entre ids apos ser removido.  
+    for (int i = valorid; i < contador; i++)
+    {
+        mat[i][0] = to_string(i + 1); 
+    }
+
+    cout << "\nProduto removido!\n";
+   }else{
+    cout << "\nRemoção cancelada\n";
+   }
+}   
+
 
 //Lembrar que tem que declarar os ponteiros nos parametros para poder pecorre entre funcoes.  
 void adicionar(int &qtd,string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
@@ -135,7 +185,7 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
             adicionar(qtd,id, mat, nome, preco, quantidade, contador);//Para adicionar artigos ao stock ou acrescentar ao stock existente
             break;
         case 2:
-            remover();//Para remover artigos do stock existente
+            remover(qtd,id, mat, nome, preco, quantidade, contador);//Para remover artigos do stock existente
             break;
         case 3:
             produtos(qtd, id, mat, nome, preco, quantidade, contador);//Para visualizar os produtos existentes
