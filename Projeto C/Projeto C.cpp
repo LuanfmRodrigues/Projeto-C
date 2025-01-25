@@ -50,10 +50,10 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
 {
     system("cls");
 
-    
+    //int contadorinterno = 0;//para quando se refizer a ação nao mostrar os itens todos que foram adicionados
     char choice4;
     do{  
-        
+        // o contador interno nao tava deixando atualizar, tive que retirar e acrescentar o contador +1
         mat[contador][0]=to_string(contador +1);
         cout << "Introduzir o nome: ";
         cin >> mat[contador][1];
