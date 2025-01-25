@@ -50,7 +50,7 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
 {
     system("cls");
 
-    int contadorinterno = 0;//para quando se refizer a ação nao mostrar os itens todos que foram adicionados
+    
     char choice4;
     do{  
         
