@@ -5,6 +5,8 @@
 #include <locale>
 #include <string>
 #include <cstdlib>
+#include <iomanip>
+
 using namespace std;
 void produtos(int &qtd, string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
@@ -13,7 +15,7 @@ void produtos(int &qtd, string &id, string **mat, string &nome, double &preco, i
     {
         for (int j = 0; j < 3; j++)
         {
-            cout << mat[i][j] << "\t|";
+            cout << left << setw(15) << mat[i][j] << "\t|";
         }
         cout << "\n";
     }
@@ -75,7 +77,7 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
     {
         for (int j = 0; j < 4; j++)
         {
-            cout << mat[i][j]<< "\t|";
+            cout << left << setw(15) << mat[i][j]<< "\t|";
         }
         cout << "\n";
     }
@@ -86,7 +88,7 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
 {
     system("cls");
 
-    int valorid;// alo xjbkcbcjb
+    int valorid;
     char choice5;
     
     cout << "\tQual o id do produto que quer remover: \n";
@@ -197,13 +199,106 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
         }
     } while (choice1 != 4);
 }
-void Carrinho()
+void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho)
 {
     system("cls");
+    int escolha;
+    int carrinholoop = 1;
+    do {
+        system("cls");
+        for (int i = 0; i < contador; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                cout << left << setw(15) << mat[i][j] << "\t|";
+            }
+            cout << "\n";
+        }
+        cout << "Introduza o id do produto que deseja adicionar ao carrinho: \n";
+        cin >> id;
+        cout << "E a sua quantidade: \n";
+        cin >> quantidade;
+
+        if (quantidade > stoi(mat[stoi(id) - 1][2]))
+        {
+            cout << "\nNão existe stock suficiente\n";
+        }
+        else
+        {
+            for (int i = 0; i < carrinholoop; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    carrinho[i][j] = mat[stoi(id)][j];//acrescentar a matriz do carrinho o produto da matriz com o stock
+                }
+            }
+            carrinho[stoi(id)][2] = quantidade;
+            cout << "\n Carrinho: \n";
+            for (int i = 0; i < carrinholoop; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    cout << carrinho[i][j];
+                }
+            }
+            carrinholoop++;
+        }
+        cout << "\nContinuar = 1\n";
+        cout << "\nSair = 0\n";
+        cin >> escolha;
+    } while (escolha != 0);
+
 }
-void Venda() 
+void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho)
 {
     system("cls");
+
+}
+void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho)
+{
+    system("cls");
+    /*adicionar item ao carrinho, adicionar quantidade de item
+     remover item do carrinho, remover quantidade do item
+     venda.
+     sair.
+     */
+    int escolha;
+    do {
+        cout << "\n \tCarrinho \n" << "1-Adicionar ao carrinho \n" << "2-Remover do carrinho\n" << "3-Venda\n" << "4-Sair\n";
+        cin >> escolha;
+        switch (escolha)
+        {
+        case 1:
+            adicionarCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
+            break;
+        case 2:
+            removerCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
+            break;
+        case 3:
+            break;
+        case 4:
+            cout << "Sair \n";
+            break;
+        default:
+            cout << "Escolha outra opçãp.\n";
+            break;
+        }
+
+    } while (escolha != 3);
+}
+void Venda()
+{
+    system("cls");
+    /*Fatura
+    troco
+    listar produtos
+    data
+    cliente aleatorio que nao paga
+    iva 
+    numero do cliente
+    numero fatura
+    total sem e com iva
+    valor pago*/
 }
 
 
@@ -217,6 +312,7 @@ int main()
     string nome;
     double preco;
     int quantidade;
+    string** carrinho = new string * [20];//matriz onde se guarda os valores do carrinho de venda
 
     //inicialização da matriz
     for (int i = 0; i < 100; i++)
@@ -225,6 +321,14 @@ int main()
         for (int j = 0; j < 3; j++)
         {
             mat[i][j] = "";
+        }
+    }
+    for (int i = 0; i < 20; i++)
+    {
+        carrinho[i] = new string[20];
+        for (int j = 0; j < 3; j++)
+        {
+            carrinho[i][j] = "";
         }
     }
     setlocale(LC_ALL, "");
@@ -238,7 +342,7 @@ int main()
             Stock(qtd, id, mat, nome, preco, quantidade, contador);    //Chamar função para entrar no stock, onde se localiza tudo em rela��o a adicionar remover e visualizar stock
             break;
         case 2:
-            Carrinho(); //Chamar função para o carrinho que vai permitir fazer vendas
+            Carrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho); //Chamar função para o carrinho que vai permitir fazer vendas
             break;
         case 3:
             cout << "Sair \n";
