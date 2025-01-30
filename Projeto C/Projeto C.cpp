@@ -86,7 +86,7 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
 {
     system("cls");
 
-    int valorid;// alo
+    int valorid;// alo xjbkcbcjb
     char choice5;
     
     cout << "\tQual o id do produto que quer remover: \n";
