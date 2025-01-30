@@ -154,13 +154,13 @@ void adicionar(int &qtd,string &id, string **mat, string &nome, double &preco, i
         case 1:
             //Adicionar a um produto ja existente
             adicionarEx(qtd, id, mat, nome, preco, quantidade, contador);
-            break;
+            return;
         case 2:
             
             adicionarNovo(qtd, id, mat, nome, preco, quantidade, contador);
-            break;
+            return;
         case 3:
-            break;
+            return;
         default:
             cout << "\nOpcao errada, tente novamente.\n";
             break;
@@ -184,15 +184,15 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
         {
         case 1:
             adicionar(qtd,id, mat, nome, preco, quantidade, contador);//Para adicionar artigos ao stock ou acrescentar ao stock existente
-            break;
+            return;
         case 2:
             remover(qtd,id, mat, nome, preco, quantidade, contador);//Para remover artigos do stock existente
-            break;
+            return;
         case 3:
             produtos(qtd, id, mat, nome, preco, quantidade, contador);//Para visualizar os produtos existentes
-            break;
+            return;
         case 4:
-            break;
+            return;
         default:
             cout << "\nOpcao errada, tente novamente.\n";
             break;
@@ -282,15 +282,15 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
         {
         case 1:
             adicionarCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
-            break;
+            return;
         case 2:
             removerCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
-            break;
+            return;
         case 3:
-            break;
+            return;
         case 4:
             cout << "Sair \n";
-            break;
+            return;
         default:
             cout << "Escolha outra opçãp.\n";
             break;
@@ -316,6 +316,7 @@ void Venda()
 
 int main()
 {
+    system("cls");
     //inicialização das variaveis todas
     int qtd = 100;
     int contador = 0;//contador de todos os produtos que se tem
