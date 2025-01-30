@@ -114,8 +114,7 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
     for (int i = valorid; i < contador -1 ; i++)
     {
         mat[i][0] = mat[i+1][0];
-        mat[i][1] = mat[i+1][1];
-        mat[i][2] = mat[i+1][2];
+        mat[i][1] = mat[i+1][1];        mat[i][2] = mat[i+1][2];
         mat[i][3] = mat[i+1][3];
     }
      // o contador é -1 para limpar o ultimo produto.
