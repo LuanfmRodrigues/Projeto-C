@@ -303,6 +303,75 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
 void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho)
 {
     system("cls");
+    int valorid;
+    char escolha1;
+
+
+    cout << "Carrinho \n";
+    for (int i = 0; i < contador; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            cout << "ID: " << carrinho[i][0]
+                << " | Nome: " << carrinho[i][1]
+                << " | Quantidade: " << carrinho[i][2]
+                << " | Preço: " << carrinho[i][3] << "\n";
+        }
+    }
+    cout << " Qual id do produto que deseja remover: \n";
+    cin >> valorid;
+
+    for (int i = 0; i < contador; i++)
+    {
+        if (carrinho[i][0] == to_string(valorid))
+        {
+            cout << "ID: " << carrinho[i][0]
+                << " | Nome: " << carrinho[i][1]
+                << " | Quantidade: " << carrinho[i][2]
+                << " | Preço: " << carrinho[i][3] << "\n";
+
+            cout << "Deseja remover mesmo o produto? (S/N) \n";
+            cin >> escolha1;
+
+            if (escolha1 == 's' || escolha1 == 'S')
+            {
+                for (int j = 0; j < contador; j++)
+                {
+                    if (mat[j][0] == carrinho[i][0])
+                    {
+                        mat[j][2] = to_string(stoi(mat[j][2]) + stoi(carrinho[i][2]));
+                        break;
+                    }
+                }
+
+
+                for (int j = i; j < contador - 1; j++)
+                {
+                    carrinho[j][0] = carrinho[j + 1][0];
+                    carrinho[j][1] = carrinho[j + 1][1];
+                    carrinho[j][2] = carrinho[j + 1][2];
+                    carrinho[j][3] = carrinho[j + 1][3];
+                }
+                carrinho[contador - 1][0] = "";
+                carrinho[contador - 1][1] = "";
+                carrinho[contador - 1][2] = "";
+                carrinho[contador - 1][3] = "";
+                contador--;
+
+
+                contador--;
+                cout << "\nProduto removido com sucesso!\n";
+                return;
+            }
+            else
+            {
+                cout << "\nRemoção cancelada!\n";
+                return;
+            }
+        }
+    }
+
+    cout << "\nID não existe!\n";
 
 }
 void impressaoFatura(int& numerocliente,int& numerofatura, int& valorpago, int& valorpagariva, int& carrinholoop, string** carrinho, int& numerovencedor)
