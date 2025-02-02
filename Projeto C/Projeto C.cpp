@@ -121,7 +121,14 @@ int faturanumero()
 void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
     system("cls");
-
+    for (int i = 0; i < contador; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            cout << left << setw(15) << mat[i][j] << "\t|";
+        }
+        cout << "\n";
+    }
     int valorid;
     char choice5;
     
@@ -237,12 +244,10 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
         }
     } while (choice1 != 4);
 }
-void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& carrinholoop)
+void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& carrinholoop, int& sigma)
 {
     system("cls");
     int escolha=1;
-    
-    int sigma = 0;
     do {
         system("cls");
         for (int i = 0; i < contador; i++)
@@ -263,7 +268,7 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
         }
         else
         {
-            for (int i = sigma; i < carrinholoop; i++)
+            for (int i = 0; i < carrinholoop; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
@@ -374,7 +379,7 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
     cout << "\nID não existe!\n";
 
 }
-void impressaoFatura(int& numerocliente,int& numerofatura, int& valorpago, int& valorpagariva, int& carrinholoop, string** carrinho, int& numerovencedor)
+void impressaoFatura(int& numerocliente,int& numerofatura, int& valorpago, int& valorpagariva, int& carrinholoop, string** carrinho, int& numerovencedor, int& sigma, string** mat, string& id)
 {
     int troco;
     cout << "Produtos comprados: \n";
@@ -394,6 +399,13 @@ void impressaoFatura(int& numerocliente,int& numerofatura, int& valorpago, int& 
         cout << "Valor a pagar: 0€\n";
         cout << "Troco: " << valorpago << "€";
         tempo();
+        for (int i = sigma; i < carrinholoop; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                carrinho[i][j] = mat[stoi(id) - 1][j];//acrescentar a matriz do carrinho o produto da matriz com o stock
+            }
+        }
     }else
     {
         cout << "\t Pena nao ganhou a lotaria, irá pagar o valor total\n";
@@ -403,11 +415,18 @@ void impressaoFatura(int& numerocliente,int& numerofatura, int& valorpago, int& 
         cout << "Iva: " << valorpagariva * 0.23 << "€" << "\n";
         cout << "Troco: " << valorpago - valorpagariva << "€";
         tempo();
+        for (int i = sigma; i < carrinholoop; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                carrinho[i][j] = mat[stoi(id) - 1][j];//acrescentar a matriz do carrinho o produto da matriz com o stock
+            }
+        }
     }
     
     
 }
-void Sale(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& carrinholoop, int& numerovencedor)
+void Sale(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& carrinholoop, int& numerovencedor, int& sigma)
 {
     system("cls");
     char gooning;
@@ -450,7 +469,7 @@ void Sale(int& qtd, string& id, string** mat, string& nome, double& preco, int& 
                 cout << "Falta dinheiro, tente novamente. \n";
             }else
             {
-                impressaoFatura(numerocliente, numerofatura, valorpago, valorpagariva, carrinholoop, carrinho, numerovencedor);
+                impressaoFatura(numerocliente, numerofatura, valorpago, valorpagariva, carrinholoop, carrinho, numerovencedor,sigma, mat, id);
             }
         }
         else if (gooning == 'N' || gooning == 'n') {}
@@ -470,6 +489,7 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
      venda.
      sair.
      */
+    int sigma = 0;
     int carrinholoop = 1;
     int escolha;
     do {
@@ -486,13 +506,13 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
         switch (escolha)
         {
         case 1:
-            adicionarCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop);
+            adicionarCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, sigma);
             return;
         case 2:
             removerCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
             return;
         case 3:
-            Sale(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, numerovencedor);
+            Sale(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, numerovencedor, sigma);
             return;
         case 4:
             cout << "Sair \n";
