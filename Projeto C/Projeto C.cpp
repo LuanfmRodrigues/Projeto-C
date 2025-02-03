@@ -52,6 +52,14 @@ void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco
         int acrescento;
         cout << "Product ID you wish to add: ";
         cin >> valorid;
+        while (!(cin))
+        {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cout << "Invalid input." << endl;
+            cout << "Product ID: ";
+            cin >> valorid;
+        }
         if (valorid > contador && valorid < 1)
         {
             cout << "\nID doesnt exist";
@@ -77,7 +85,7 @@ void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco
 void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
     system("cls");
-    
+    int aox;
     //int contadorinterno = 0;//para quando se refizer a ação nao mostrar os itens todos que foram adicionados
     char choice4;
     do{  
@@ -86,7 +94,16 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
         cout << "Name: ";
         cin >> mat[contador][1];
          cout << "Amount: ";
-         cin >> mat[contador][2];
+         cin >> aox;
+         while (!(cin))
+         {
+             cin.clear();
+             cin.ignore(INT_MAX, '\n');
+             cout << "Invalid input." << endl;
+             cout << "Amount: ";
+             cin >> aox;
+         }
+         mat[contador][2]=to_string(aox);
          if(stoi(mat[contador][2])<=0)
          {
              cout << "Invalid value do you wish to try again? (y/n)\n";
@@ -94,7 +111,16 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
          }
          else{
              cout << "Price: ";
-             cin >> mat[contador][3];
+             cin >> aox;
+             while (!(cin))
+             {
+                 cin.clear();
+                 cin.ignore(INT_MAX, '\n');
+                 cout << "Invalid input." << endl;
+                 cout << "Amount: ";
+                 cin >> aox;
+             }
+             mat[contador][3] = to_string(aox);
              if (stoi(mat[contador][3]) <= 0) 
              {
                  cout << "Invalid value do you wish to try again? (y/n)\n";
@@ -162,6 +188,14 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
     
     cout << "\tProduct ID: \n";
     cin >> valorid;
+    while (!(cin))
+    {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Invalid input." << endl;
+        cout << "Product ID: ";
+        cin >> valorid;
+    }
     
     //validação se existe o id do produto.
     if( valorid < 1 || valorid > contador)
@@ -287,8 +321,24 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
         }
         cout << "Product ID: \n";
         cin >> id;
+        while (!(cin))
+        {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cout << "Invalid input." << endl;
+            cout << "Product ID: ";
+            cin >> id;
+        }
         cout << "Amount: \n";
         cin >> quantidade;
+        while (!(cin))
+        {
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cout << "Invalid input." << endl;
+            cout << "Amount: ";
+            cin >> quantidade;
+        }
         if (quantidade > stoi(mat[stoi(id) - 1][2]))
         {
             cout << "\nNot enough Stock\n";
@@ -347,6 +397,14 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
   
     cout << " Product Id which you want to remove: \n";
     cin >> valorid;
+    while (!(cin))
+    {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Invalid input." << endl;
+        cout << "Product ID: ";
+        cin >> valorid;
+    }
 
     for (int i = 0; i < contador; i++)
     {
@@ -474,6 +532,14 @@ void Sale(int& qtd, string& id, string** mat, string& nome, double& preco, int& 
                 }
                 cout << "Price to pay: " << valorpagariva * 1.3 << "\n" << "Introduce the amount of money to pay: \n";
                 cin >> valorpago;
+                while (!(cin))
+                {
+                    cin.clear();
+                    cin.ignore(INT_MAX, '\n');
+                    cout << "Invalid input." << endl;
+                    cout << "Amount: ";
+                    cin >> valorpago;
+                }
                 if (valorpago < valorpagariva * 1.3)
                 {
                     cout << "Not enough money try again. " << (valorpagariva * 1.3) + valorpago;
