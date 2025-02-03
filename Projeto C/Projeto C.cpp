@@ -21,7 +21,7 @@ void tempo()
     localtime_s(&time_info, &now_time); // Note que aqui usamos localtime_s
 
     // Exibe a data e hora formatada
-    cout << "Data e Hora atuais: "
+    cout << "Date and time: "
         << time_info.tm_mday << "/"
         << time_info.tm_mon + 1 << "/" // Meses começam de 0
         << time_info.tm_year + 1900 << " " // O ano começa de 1900
@@ -35,9 +35,9 @@ void produtos(int &qtd, string &id, string **mat, string &nome, double &preco, i
     for (int i = 0; i < contador; i++)
     {
         cout << "ID: " << mat[i][0]
-            << "  Nome: " << mat[i][1]
-            << "  Quantidade: " << mat[i][2]
-            << "  Preço: " << mat[i][3] << "\n";
+            << "  Name: " << mat[i][1]
+            << "  Amount: " << mat[i][2]
+            << "  Price: " << mat[i][3] << "\n";
     }
 
     
@@ -50,11 +50,11 @@ void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco
     {
         int valorid;
         int acrescento;
-        cout << "Id do produto que quer acrescentar: ";
+        cout << "Product ID you wish to add: ";
         cin >> valorid;
         if (valorid > contador && valorid < 1)
         {
-            cout << "\nId introduzido invalido ou nao existente";
+            cout << "\nID doesnt exist";
         }
         else
         {
@@ -62,14 +62,14 @@ void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco
             for (int i = 0; i < 4; i++)
             {
                 cout << "ID: " << mat[i][0]
-                    << "  Nome: " << mat[i][1]
-                    << "  Quantidade: " << mat[i][2]
-                    << "  Preço: " << mat[i][3] << "\n";
+                    << "  Name: " << mat[i][1]
+                    << "  Amount: " << mat[i][2]
+                    << "  Price: " << mat[i][3] << "\n";
             }
-            cout << "\nIntroduzir a quantidade do produto que deseja acrescentar: ";
+            cout << "\nAmount you wish to add: ";
             cin >> acrescento;
             mat[valorid][2] = to_string(stoi(mat[valorid][2]) + acrescento);
-            cout << "\nNova quantidade: " << mat[valorid][2];
+            cout << "\nNew amount: " << mat[valorid][2];
         }
     }
     else{}
@@ -83,21 +83,21 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
     do{  
         // o contador interno nao tava deixando atualizar, tive que retirar e acrescentar o contador +1
         mat[contador][0]=to_string(contador +1);
-        cout << "Introduzir o nome: ";
+        cout << "Name: ";
         cin >> mat[contador][1];
-         cout << "Introduzir a quantidade: ";
+         cout << "Amount: ";
          cin >> mat[contador][2];
          if(stoi(mat[contador][2])<=0)
          {
-             cout << "Valor invalido deseja tentar novamente? (s/n)\n";
+             cout << "Invalid value do you wish to try again? (y/n)\n";
              cin >> choice4;
          }
          else{
-             cout << "Introduzir o preco: ";
+             cout << "Price: ";
              cin >> mat[contador][3];
              if (stoi(mat[contador][3]) <= 0) 
              {
-                 cout << "Valor invalido deseja tentar novamente? (s/n)\n";
+                 cout << "Invalid value do you wish to try again? (y/n)\n";
                  cin >> choice4;
              }
              else
@@ -107,19 +107,19 @@ void adicionarNovo(int &qtd, string &id, string **mat, string &nome, double &pre
                  {
                      qtd++;
                  }
-                 cout << "Deseja adicionar mais produtos?.. (s/n)\n";
+                 cout << "Do you wish to add more products?.. (y/n)\n";
                  cin >> choice4;
              }
              
          }
          
-    }while (choice4 == 's' || choice4 == 'S');
+    }while (choice4 == 'y' || choice4 == 'Y');
     for (int i = 0; i < contador; i++)
     {
         cout << "ID: " << mat[i][0]
-            << "  Nome: " << mat[i][1]
-            << "  Quantidade: " << mat[i][2]
-            << "  Preço: " << mat[i][3] << "\n";
+            << "  Name: " << mat[i][1]
+            << "  Amount: " << mat[i][2]
+            << "  Price: " << mat[i][3] << "\n";
     }
 }
 
@@ -129,15 +129,23 @@ int gerarNumero()
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<long long> distrib(1000000, 9999999);
-    return distrib(gen);
+    long long numero;
+    do {
+        numero = distrib(gen);
+    } while (numero <= 0);
+    return (numero < 0) ? -numero : numero;
 }
 int faturanumero()
 {
     //gera numero da fatura
     random_device rd;
     mt19937 ger(rd());
-    uniform_int_distribution<long long> distrib(100000000000, 999999999999);
-    return distrib(ger);
+    uniform_int_distribution<long long> distrib(10000000, 99999999);
+    long long numero;
+    do {
+        numero = distrib(ger);
+    } while (numero <= 0);
+    return (numero < 0) ? -numero : numero;//operador ternario usado para no caso de ser negativo retornar sempre positivo
 }
 void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int &quantidade, int &contador)
 {
@@ -145,32 +153,32 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
     for (int i = 0; i < contador; i++)
     {
         cout << "ID: " << mat[i][0]
-            << "  Nome: " << mat[i][1]
-            << "  Quantidade: " << mat[i][2]
-            << "  Preço: " << mat[i][3] << "\n";
+            << "  Name: " << mat[i][1]
+            << "  Amount: " << mat[i][2]
+            << "  Price: " << mat[i][3] << "\n";
     }
     int valorid;
     char choice5;
     
-    cout << "\tQual o id do produto que quer remover: \n";
+    cout << "\tProduct ID: \n";
     cin >> valorid;
     
     //validação se existe o id do produto.
     if( valorid < 1 || valorid > contador)
     {
-        cout << "\nId informado não existe!!!\n";
+        cout << "\nId doesnt exist!!!\n";
     }
 
     valorid = valorid -1;
 
-    cout << "\tNome do produto: " << mat[valorid][1]<< "\n";
-    cout << "\tQuantidade do produto: " << mat[valorid][2]<< "\n";
-    cout << "\tPreço do produto: " << mat[valorid][3]<< endl<< "\n";
+    cout << "\tName: " << mat[valorid][1]<< "\n";
+    cout << "\tAmount: " << mat[valorid][2]<< "\n";
+    cout << "\tPrice: " << mat[valorid][3]<< endl<< "\n";
 
-    cout << " Deseja remover o o produto, (s/n)";
+    cout << " Do you wish to remove the product, (y/n)";
     cin >> choice5;
 
-   if(choice5 == 's' || choice5 == 'S')
+   if(choice5 == 'y' || choice5 == 'Y')
    {
     // o loop vai deslocar o produto solicitado para ultima posição.
       
@@ -193,9 +201,9 @@ void remover(int &qtd,string &id, string **mat, string &nome, double &preco, int
         mat[i][0] = to_string(i + 1); 
     }
 
-    cout << "\nProduto removido!\n";
+    cout << "\nProduct removed!\n";
    }else{
-    cout << "\nRemoção cancelada\n";
+    cout << "\nRemoval cancelled\n";
    }
 }   
 
@@ -208,7 +216,7 @@ void adicionar(int &qtd,string &id, string **mat, string &nome, double &preco, i
     int choice3;
     do
     {
-        cout << "\n Selecione a opção: \n" << "1- Adicionar Quantidade de produto\n" << "2- Adicionar produto novo\n" << "3- Voltar\n";
+        cout << "\n \tChoose: \n" << "1- Add existing\n" << "2- Add new\n" << "3- Exit\n";
         cin >> choice3;
         switch (choice3)
         {
@@ -225,7 +233,7 @@ void adicionar(int &qtd,string &id, string **mat, string &nome, double &preco, i
         default:
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cout << "\nOpcao errada, tente novamente.\n";
+            cout << "\nChoose another option.\n";
             break;
         }
     
@@ -241,7 +249,7 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
     int choice1;  
     do
     {
-        cout << " 1-Adicionar \n" << " 2-Remover \n" << " 3- Produtos \n" << " 4-Sair \n";
+        cout << " 1-Add \n" << " 2-Remove \n" << " 3- Products \n" << " 4-exit \n";
         cin >> choice1;
         switch (choice1)
         {
@@ -259,7 +267,7 @@ void Stock(int& qtd, string& id, string** mat, string& nome, double& preco, int&
         default:
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cout << "\nOpcao errada, tente novamente.\n";
+            cout << "\nChoose another option.\n";
             break;
         }
     } while (choice1 != 4);
@@ -273,17 +281,21 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
         for (int i = 0; i < contador; i++)
         {
             cout << "ID: " << mat[i][0]
-                << "  Nome: " << mat[i][1]
-                << "  Quantidade: " << mat[i][2]
-                << "  Preço: " << mat[i][3] << "\n";
+                << "  Name: " << mat[i][1]
+                << "  Amount: " << mat[i][2]
+                << "  Price: " << mat[i][3] << "\n";
         }
-        cout << "Introduza o id do produto que deseja adicionar ao carrinho: \n";
+        cout << "Product ID: \n";
         cin >> id;
-        cout << "E a sua quantidade: \n";
+        cout << "Amount: \n";
         cin >> quantidade;
         if (quantidade > stoi(mat[stoi(id) - 1][2]))
         {
-            cout << "\nNão existe stock suficiente\n";
+            cout << "\nNot enough Stock\n";
+            carrinho[carrinholoop - 1][0] = "";
+            carrinho[carrinholoop - 1][1] = "";
+            carrinho[carrinholoop - 1][2] = "";
+            
         }
         else
         {
@@ -302,15 +314,15 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
             cout << "\n Carrinho: \n";
             for (int i = 0; i < carrinholoop; i++)
             {
-                cout << "ID: " << carrinho[i][0] 
-                    << "  Nome: " << carrinho[i][1]
-                    << "  Quantidade: " << carrinho[i][2]
-                    << "  Preço: " << carrinho[i][3] << "\n";
+                cout << "ID: " << carrinho[i][0]
+                    << "  Name: " << carrinho[i][1]
+                    << "  Amount: " << carrinho[i][2]
+                    << "  Price: " << carrinho[i][3] << "\n";
             }
             carrinholoop++;
             sigma++;
-            cout << "Continuar = 1\n";
-            cout << "Sair = 0\n";
+            cout << "Continue: 1\n";
+            cout << "Exit: 0\n";
             cin >> escolha;
             
         }
@@ -324,17 +336,16 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
     char escolha1;
 
 
-    cout << "Carrinho \n";
+    cout << "Cart \n";
     for (int i = 0; i < carrinholoop; i++)
     {
-        for (int j = 0; j < 4; j++)
-        {
-            cout << left << setw(15) << carrinho[i][j];
-        }
-        cout << "\n";
+        cout << "ID: " << carrinho[i][0]
+            << "  Name: " << carrinho[i][1]
+            << "  Amount: " << carrinho[i][2]
+            << "  Price: " << carrinho[i][3] << "\n";
     }
   
-    cout << " Qual id do produto que deseja remover: \n";
+    cout << " Product Id which you want to remove: \n";
     cin >> valorid;
 
     for (int i = 0; i < contador; i++)
@@ -342,14 +353,14 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
         if (carrinho[i][0] == to_string(valorid))
         {
             cout << "ID: " << carrinho[i][0]
-                << "  Nome: " << carrinho[i][1]
-                << "  Quantidade: " << carrinho[i][2]
-                << "  Preço: " << carrinho[i][3] << "\n";
+                << "  Name: " << carrinho[i][1]
+                << "  Amount: " << carrinho[i][2]
+                << "  Price: " << carrinho[i][3] << "\n";
 
-            cout << "Deseja remover mesmo o produto? (S/N) \n";
+            cout << "Do you wish to remove the product? (Y/N) \n";
             cin >> escolha1;
 
-            if (escolha1 == 's' || escolha1 == 'S')
+            if (escolha1 == 'y' || escolha1 == 'Y')
             {
                 for (int j = 0; j < contador; j++)
                 {
@@ -373,39 +384,38 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
                 carrinho[carrinholoop - 1][2] = "";
                 carrinho[carrinholoop - 1][3] = "";
                 carrinholoop--;
-                cout << "\nProduto removido com sucesso!\n";
+                cout << "\nProduct removed successfully!\n";
                 return;
             }
             else
             {
-                cout << "\nRemoção cancelada!\n";
+                cout << "\nRemoval cancelled!\n";
                 return;
             }
         }
     }
 
-    cout << "\nID não existe!\n";
+    cout << "\nInvalid ID!\n";
 
 }
 void impressaoFatura(long long& numerocliente,long long& numerofatura, float& valorpago, float& valorpagariva, int& carrinholoop, string** carrinho, int& numerovencedor, int& sigma, string** mat, string& id)
 {
     int troco;
-    cout << "Produtos comprados: \n";
-    for (int i = 0; i < carrinholoop; i++)
+    cout << "Products bought: \n";
+    for (int i = 0; i < carrinholoop-1; i++)
     {
-        for (int j = 0; j < 4; j++)
-        {
-            cout << left << setw(15) << carrinho[i][j] << "\t";
-        }
-        cout << "\n";
+        cout << "ID: " << carrinho[i][0]
+            << "  Name: " << carrinho[i][1]
+            << "  Amount: " << carrinho[i][2]
+            << "  Price: " << carrinho[i][3] << "\n";
     }
-    cout << "Fatura: " << numerofatura<< "\n";
-    cout << "Nº Cliente: " << numerocliente << "\n";
+    cout << "Invoice: " << numerofatura<< "\n";
+    cout << "Client number: " << numerocliente << "\n";
     if(numerocliente == numerovencedor)
     {
-        cout << "\t ~Parabens, ganhou a lotaria e esta isento de custo~\n";
-        cout << "Valor a pagar: 0€\n";
-        cout << "Troco: " << valorpago << "€\n";
+        cout << "\t Congrats you won the lottery\n";
+        cout << "Price to pay: 0$\n";
+        cout << "Change: " << valorpago << "$\n";
         tempo();
         for (int i = sigma; i < carrinholoop; i++)
         {
@@ -416,12 +426,12 @@ void impressaoFatura(long long& numerocliente,long long& numerofatura, float& va
         }
     }else
     {
-        cout << "\t Pena nao ganhou a lotaria, irá pagar o valor total\n";
-        cout << "Numero do vencedor: " << numerovencedor;
-        cout << "Valor a pagar com iva: " << valorpagariva << "€" << "\n";
-        cout << "Valor a pagar sem iva: " << valorpagariva * 0.77 << "€" << "\n";
-        cout << "Iva: " << valorpagariva * 0.23 << "€" << "\n";
-        cout << "Troco: " << valorpago - valorpagariva << "€\n";
+        cout << "\t You did not win the lottery\n";
+        cout << "Winner: " << numerovencedor<<"\n";
+        cout << "Price with VAT: " << valorpagariva *1.3 << "$" << "\n";
+        cout << "Price without VAT: " << valorpagariva  << "$" << "\n";
+        cout << "VAT: " << valorpagariva * 0.30 << "$" << "\n";
+        cout << "Change: " << valorpago - (valorpagariva*1.3) << "$\n";
         tempo();
         for (int i = sigma; i < carrinholoop; i++)
         {
@@ -440,48 +450,51 @@ void Sale(int& qtd, string& id, string** mat, string& nome, double& preco, int& 
     char gooning;
    
     
-        cout << "\t Carrinho \t";
-        for (int i = 0; i < carrinholoop; i++)
+        cout << "\t Cart \n";
+        if (carrinholoop>1)
         {
-            for (int j = 0; j < 4; j++)
+            for (int i = 0; i < carrinholoop-1; i++)
             {
-                cout << left << setw(15) << carrinho[i][j] << "\t";
+                cout << "ID: " << carrinho[i][0]
+                    << "  Name: " << carrinho[i][1]
+                    << "  Amount: " << carrinho[i][2]
+                    << "  Price: " << carrinho[i][3] << "\n";
             }
-            cout << "\n";
-        }
-        cout << "Deseja continuar para a compra: \n S/N\n";
-        cin >> gooning;
-        if (gooning == 'S' || gooning == 's')
-        {
-            float valorpago;
-            float valorpagariva = 0;
-            long long numerocliente = gerarNumero();
-            long long numerofatura = faturanumero();
-            for (int i = 1; i < carrinholoop; i++)
+            cout << "Go to checkout: \n Y/N\n";
+            cin >> gooning;
+            if (gooning == 'Y' || gooning == 'y')
             {
-                valorpagariva = stof(carrinho[i-1][2])*stof(carrinho[i-1][3]);
+                float valorpago;
+                float valorpagariva = 0;
+                long long numerocliente = gerarNumero();
+                long long numerofatura = faturanumero();
+                for (int i = 1; i < carrinholoop; i++)
+                {
+                    valorpagariva += stof(carrinho[i - 1][2]) * stof(carrinho[i - 1][3]);
+                }
+                cout << "Price to pay: " << valorpagariva * 1.3 << "\n" << "Introduce the amount of money to pay: \n";
+                cin >> valorpago;
+                if (valorpago < valorpagariva * 1.3)
+                {
+                    cout << "Not enough money try again. " << (valorpagariva * 1.3) + valorpago;
+                    Sale(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, numerovencedor, sigma);
+                }
+                else
+                {
+                    impressaoFatura(numerocliente, numerofatura, valorpago, valorpagariva, carrinholoop, carrinho, numerovencedor, sigma, mat, id);
+                }
             }
-            cout << "O valora pagar é: " << valorpagariva << "\n" << "Introduza o valor que deseja pagar: \n";
-            cin >> valorpago;
-            if (valorpago<valorpagariva)
+            else if (gooning == 'N' || gooning == 'n')
             {
-                cout << "Falta dinheiro, tente novamente. \n";
-            }else
-            {
-                impressaoFatura(numerocliente, numerofatura, valorpago, valorpagariva, carrinholoop, carrinho, numerovencedor,sigma, mat, id);
+
             }
-        }
-        else if (gooning == 'N' || gooning == 'n') 
-        {
-            cout << "a Voltar";
-        }
-        else
-        {
-            cout << "Tente novamente deixe de ser estrubilho";
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-    
+            else
+            {
+                cout << "Try again";
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+        }else{}
 }
 void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& numerovencedor, int& carrinholoop)
 {
@@ -496,20 +509,20 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
     do {
         if(carrinholoop==1)
         {
-            cout << "Carrinho vazio";
+            cout << "\tEmpty Cart\t";
         }else
         {
-            for (int i = 0; i < carrinholoop; i++)
+            for (int i = 0; i < carrinholoop-1; i++)
             {
-                for (int j = 0; j < 4; j++)
-                {
-                    cout << left << setw(15) << carrinho[i][j] << "\t";
-                }
+                cout << "ID: " << carrinho[i][0]
+                    << "  Name: " << carrinho[i][1]
+                    << "  Amount: " << carrinho[i][2]
+                    << "  Price: " << carrinho[i][3] << "\n";
                 cout << "\n";
             }
         }
         
-        cout << "\n \tCarrinho \n" << "1-Adicionar ao carrinho \n" << "2-Remover do carrinho\n" << "3-Venda\n" << "4-Sair\n";
+        cout << "\n \tCarrinho \n" << "1-Add to Cart \n" << "2-Remove from Cart\n" << "3-Sale\n" << "4-Exit\n";
         cin >> escolha;
         switch (escolha)
         {
@@ -523,12 +536,12 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
             Sale(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, numerovencedor, sigma);
             return;
         case 4:
-            cout << "Sair \n";
+            cout << "Exit \n";
             return;
         default:
             cin.clear();//apaga a entrada invalida seja numero ou outro input
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');// ignora o input para nao dar o erro de loop constante 
-            cout << "Escolha outra opção.\n";
+            cout << "Choose another option.\n";
             break;
         }
 
@@ -536,7 +549,6 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
 }
 int main()
 {
-
     system("cls");
     //inicialização das variaveis todas
     int qtd = 100;
@@ -569,7 +581,7 @@ int main()
     
     int choice;
     do {
-        cout << "\n \tMenu Principal \n" << "1-Stock \n" << "2-Carrinho\n" << "3-Sair\n";
+        cout << "\n \tMain menu \n" << "1-Stock \n" << "2-Cart\n" << "3-Exit\n";
         cin >> choice;
         switch (choice)
         {
@@ -580,11 +592,11 @@ int main()
             Carrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho, numerovencedor, carrinholoop); //Chamar função para o carrinho que vai permitir fazer vendas
             break;
         case 3:
-            cout << "Sair \n";
+            cout << "Exit \n";
         default:
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Escolha outra opção.\n";
+            cout << "Choose another option.\n";
             break;
         }
         
