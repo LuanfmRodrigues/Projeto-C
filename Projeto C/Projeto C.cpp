@@ -60,7 +60,7 @@ void adicionarEx(int& qtd, string& id, string** mat, string& nome, double& preco
             cout << "Product ID: ";
             cin >> valorid;
         }
-        if (valorid > contador && valorid < 1)
+        if (valorid > contador || valorid < 0)
         {
             cout << "\nID doesnt exist";
         }
