@@ -277,16 +277,7 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
             }
             mat[stoi(id) - 1][2] = to_string(stoi(mat[stoi(id) - 1][2]) - quantidade);
             carrinho[sigma][2] = to_string(quantidade);
-            for (int i = sigma; i < carrinholoop; i++)
-            {
-                for (int j = 0; j < sigma; j++)
-                {
-                    if (carrinho[i][0] != carrinho[j][0])
-                    {
-                        carrinho[i][2] = to_string(stoi(carrinho[i][2] + carrinho[j][2]));
-                    }
-                }
-            }
+           
             cout << "\n Carrinho: \n";
             for (int i = 0; i < carrinholoop; i++)
             {
@@ -301,11 +292,12 @@ void adicionarCarrinho(int& qtd, string& id, string** mat, string& nome, double&
             cout << "Continuar = 1\n";
             cout << "Sair = 0\n";
             cin >> escolha;
+            
         }
     } while (escolha != 0);
     
 }
-void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho)
+void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& preco, int& quantidade, int& contador, string** carrinho, int& carrinholoop)
 {
     system("cls");
     int valorid;
@@ -313,15 +305,13 @@ void removerCarrinho(int& qtd, string& id, string** mat, string& nome, double& p
 
 
     cout << "Carrinho \n";
-    for (int i = 0; i < contador; i++)
+    for (int i = 0; i < carrinholoop; i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            cout << "ID: " << carrinho[i][0]
-                << " | Nome: " << carrinho[i][1]
-                << " | Quantidade: " << carrinho[i][2]
-                << " | Preço: " << carrinho[i][3] << "\n";
+            cout << left << setw(15) << carrinho[i][j];
         }
+        cout << "\n";
     }
     cout << " Qual id do produto que deseja remover: \n";
     cin >> valorid;
@@ -493,14 +483,21 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
     int carrinholoop = 1;
     int escolha;
     do {
-        for (int i = 0; i < carrinholoop; i++)
+        if(carrinholoop==1)
         {
-            for (int j = 0; j < 3; j++)
+            cout << "Carrinho vazio";
+        }else
+        {
+            for (int i = 0; i < carrinholoop; i++)
             {
-                cout << left << setw(15) << carrinho[i][j] << "\t";
+                for (int j = 0; j < 3; j++)
+                {
+                    cout << left << setw(15) << carrinho[i][j] << "\t";
+                }
+                cout << "\n";
             }
-            cout << "\n";
         }
+        
         cout << "\n \tCarrinho \n" << "1-Adicionar ao carrinho \n" << "2-Remover do carrinho\n" << "3-Venda\n" << "4-Sair\n";
         cin >> escolha;
         switch (escolha)
@@ -509,7 +506,7 @@ void Carrinho(int& qtd, string& id, string** mat, string& nome, double& preco, i
             adicionarCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, sigma);
             return;
         case 2:
-            removerCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho);
+            removerCarrinho(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop);
             return;
         case 3:
             Sale(qtd, id, mat, nome, preco, quantidade, contador, carrinho, carrinholoop, numerovencedor, sigma);
